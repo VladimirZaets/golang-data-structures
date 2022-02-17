@@ -25,6 +25,8 @@
 | Remove at tail | O(n) | O(1) |
 | Remove in middle | O(n) | O(n) |
 
+----
+
 ### Stack
 
 ||Singly Linked List|
