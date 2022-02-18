@@ -29,10 +29,23 @@
 
 ### Stack
 
-||Singly Linked List|
+|||
 | ----------- | ----------- |
 | Pushing | O(1) |
 | Popping | O(1) |
 | Peeking | O(1) |
 | Searching | O(n) |
 | Size | O(1) |
+
+----
+
+### Queue
+
+|||
+| ----------- | ----------- |
+| Enqueue | O(1) |
+| Dequeue | O(1) |
+| Peeking | O(1) |
+| Contains | O(n) |
+| Removal | O(n) |
+| Is Empty | O(1) |
