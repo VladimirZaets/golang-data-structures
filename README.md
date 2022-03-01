@@ -49,3 +49,18 @@
 | Contains | O(n) |
 | Removal | O(n) |
 | Is Empty | O(1) |
+
+----
+
+### Priority Queue with binary heap
+
+|||
+| ----------- | ----------- |
+| Binary Heap Construction  | O(n) |
+| Polling | O(log(n)) |
+| Peeking | O(1) |
+| Adding | O(log(n)) |
+| Naive Removing | O(n) |
+| Naive Contains | O(n) |
+| Removing with help of hash table | O(log(n)) |
+| Containts check with help of hash table | O(1) |
