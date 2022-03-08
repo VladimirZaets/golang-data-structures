@@ -64,3 +64,15 @@
 | Naive Contains | O(n) |
 | Removing with help of hash table | O(log(n)) |
 | Containts check with help of hash table | O(1) |
+
+----
+
+### Union Find
+|||
+| ----------- | ----------- |
+| Construction  | O(n) |
+| Union | O(1)+ |
+| Find | O(1)+ |
+| Get Component size | O(1)+ |
+| Check if connected | O(1)+ |
+| Count | O(1) |
