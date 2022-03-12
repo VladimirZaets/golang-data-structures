@@ -76,3 +76,13 @@
 | Get Component size | O(1)+ |
 | Check if connected | O(1)+ |
 | Count | O(1) |
+
+----
+
+### Binary Search Tree
+|Operation|Average|Worst|
+| ----------- | ----------- | ----------- |
+| Insert  | O(log(n)) | O(n)|
+| Delete | O(log(n)) | O(n)|
+| Remove | O(log(n)) | O(n)|
+| Search | O(log(n)) | O(n)|
