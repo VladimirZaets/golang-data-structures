@@ -100,11 +100,17 @@ func (dll *DoubleLinkedList) AddToHead(data interface{}) error {
 
 func (dll *DoubleLinkedList) RemoveLast() error {
 	if dll.tail == nil {
-		return errors.New("double linked list is empty")
+		return dll.RemoveFirst()
 	}
 
-	dll.tail = dll.tail.prev
-	dll.tail.next = nil
+	if dll.tail.prev == dll.head {
+		dll.tail = nil
+		dll.head.next = nil
+	} else {
+		dll.tail = dll.tail.prev
+		dll.tail.next = nil
+	}
+
 	dll.size--
 	return nil
 }
@@ -114,8 +120,12 @@ func (dll *DoubleLinkedList) RemoveFirst() error {
 		return errors.New("double linked list is empty")
 	}
 
-	dll.head = dll.head.next
-	dll.head.prev = nil
+	if dll.tail == nil {
+		dll.head = nil
+	} else {
+		dll.head = dll.head.next
+		dll.head.prev = nil
+	}
 	dll.size--
 	return nil
 }

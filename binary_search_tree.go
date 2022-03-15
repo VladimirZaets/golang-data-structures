@@ -9,6 +9,13 @@ const (
 	driftRight
 )
 
+const (
+	PreOrder = iota
+	InOrder
+	PostOrder
+	LevelOrder
+)
+
 type BinarySearchTreeNode struct {
 	data  *Comparable
 	left  *BinarySearchTreeNode
@@ -138,4 +145,132 @@ func (bst *BinarySearchTree) drift(side int, node *BinarySearchTreeNode) *Binary
 		}
 	}
 	return temporaryNode
+}
+
+func (bst *BinarySearchTree) Height() int {
+	return bst.height(bst.root)
+}
+
+func (bst *BinarySearchTree) height(root *BinarySearchTreeNode) int {
+	if root == nil {
+		return 0
+	}
+
+	return max(bst.height(root.left), bst.height(root.right)) + 1
+}
+
+func (bst *BinarySearchTree) Traverse(order int) ([]*Comparable, error) {
+	switch order {
+	case PreOrder:
+		return bst.preOrderTraverse(bst.root), nil
+	case InOrder:
+		return bst.inOrderTraverse(bst.root), nil
+	case PostOrder:
+		return bst.postOrderTraverse(bst.root), nil
+	case LevelOrder:
+		return bst.levelOrderTraverse(bst.root), nil
+	}
+
+	return nil, fmt.Errorf("order type %d does not exists", order)
+}
+
+func (bst *BinarySearchTree) preOrderTraverse(node *BinarySearchTreeNode) []*Comparable {
+	sl := make([]*Comparable, bst.size)
+	stack := NewStack()
+	stack.Push(node)
+	i := 0
+
+	for stack.Peek() != nil {
+		node := stack.Peek().(*BinarySearchTreeNode)
+		sl[i] = node.data
+		stack.Pop()
+		if node.right != nil {
+			stack.Push(node.right)
+		}
+		if node.left != nil {
+			stack.Push(node.left)
+		}
+		i++
+	}
+	return sl
+}
+
+func (bst *BinarySearchTree) inOrderTraverse(node *BinarySearchTreeNode) []*Comparable {
+	sl := make([]*Comparable, bst.size)
+	i := 0
+	stack := NewStack()
+	current := node
+	for current != nil || stack.Peek() != nil {
+		for current != nil {
+			stack.Push(current)
+			current = current.left
+		}
+		node := stack.Peek().(*BinarySearchTreeNode)
+		stack.Pop()
+		sl[i] = node.data
+		i++
+		if node.right != nil {
+			current = node.right
+		}
+	}
+
+	return sl
+}
+
+func (bst *BinarySearchTree) postOrderTraverse(node *BinarySearchTreeNode) []*Comparable {
+	sl := make([]*Comparable, bst.size)
+	stack := NewStack()
+	stackFinal := NewStack()
+	stack.Push(node)
+	i := 0
+
+	for stack.Peek() != nil {
+		node := stack.Peek().(*BinarySearchTreeNode)
+		stack.Pop()
+		stackFinal.Push(node)
+		if node.left != nil {
+			stack.Push(node.left)
+		}
+		if node.right != nil {
+			stack.Push(node.right)
+		}
+	}
+
+	for stackFinal.Peek() != nil {
+		node := stackFinal.Peek().(*BinarySearchTreeNode)
+		sl[i] = node.data
+		stackFinal.Pop()
+		i++
+	}
+
+	return sl
+}
+
+func (bst *BinarySearchTree) levelOrderTraverse(node *BinarySearchTreeNode) []*Comparable {
+	sl := make([]*Comparable, bst.size)
+	queue := NewQueue(bst.size)
+	i := 0
+	queue.Offer(node)
+	for !queue.IsEmpty() {
+		elem, _ := queue.Peek()
+		node = elem.(*BinarySearchTreeNode)
+		sl[i] = node.data
+		i++
+		queue.Poll()
+		if node.left != nil {
+			queue.Offer(node.left)
+		}
+
+		if node.right != nil {
+			queue.Offer(node.right)
+		}
+	}
+	return sl
+}
+
+func max(x, y int) int {
+	if x < y {
+		return y
+	}
+	return x
 }

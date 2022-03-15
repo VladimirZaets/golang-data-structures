@@ -56,4 +56,19 @@ func TestPeekOnEmptyStack(t *testing.T) {
 	if stack.Peek() != nil {
 		t.Errorf("The stack is empty, peek should return nil, got %s", stack.Peek())
 	}
+
+	stack.Push("val-01")
+	stack.Pop()
+
+	if stack.Peek() != nil {
+		t.Errorf("The stack is empty, peek should return nil, got %s", stack.Peek())
+	}
+
+	stack.Push("val-01")
+	stack.Push("val-02")
+	stack.Pop()
+	stack.Pop()
+	if stack.Peek() != nil {
+		t.Errorf("The stack is empty, peek should return nil, got %s", stack.Peek())
+	}
 }

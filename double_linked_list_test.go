@@ -89,6 +89,14 @@ func TestRemoveLast(t *testing.T) {
 	if dll.tail.data != "val-3" {
 		t.Errorf("The tail node data should be 'val-3', got %s", dll.tail.data)
 	}
+
+	dll, _ = generateBaseDLL(1)
+	err = dll.RemoveLast()
+	if err != nil {
+		t.Error(err)
+	}
+
+	fmt.Println("11")
 }
 
 func TestRemoveFirst(t *testing.T) {
@@ -142,9 +150,8 @@ func TestRemove(t *testing.T) {
 
 func generateBaseDLL(size int) (*DoubleLinkedList, error) {
 	dll := NewDoubleLinkedList()
-	iteration := 5
 
-	for i := 0; i < iteration; i++ {
+	for i := 0; i < size; i++ {
 		err := dll.AddToTail(fmt.Sprintf("val-%d", i))
 		if err != nil {
 			return nil, err
