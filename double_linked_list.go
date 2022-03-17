@@ -153,10 +153,10 @@ func (dll *DoubleLinkedList) RemoveByIndex(index int) error {
 
 func (dll *DoubleLinkedList) Remove(n *Node) error {
 	if n == dll.head {
-		dll.RemoveFirst()
+		return dll.RemoveFirst()
 	}
 	if n == dll.tail {
-		dll.RemoveLast()
+		return dll.RemoveLast()
 	}
 
 	node := dll.head.next
