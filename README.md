@@ -86,3 +86,12 @@
 | Delete | O(log(n)) | O(n)|
 | Remove | O(log(n)) | O(n)|
 | Search | O(log(n)) | O(n)|
+
+### Hash map (Separate chaining)
+|Operation|Average|Worst|
+| ----------- | ----------- | ----------- |
+| Set  | O(1)* | O(n)|
+| Remove | O(1)* | O(n)|
+| Get | O(1)* | O(n)|
+
+* Constant time is only true in case of good uniform hash function.
