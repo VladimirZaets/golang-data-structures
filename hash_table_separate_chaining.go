@@ -81,7 +81,7 @@ func (ht *HashTableSeparateChaining) resizeList() {
 	ht.capacity *= 2
 	ht.threshold = int(ht.maxLoadFactor * float64(ht.capacity))
 	scaledList := make([]*DoubleLinkedList, ht.capacity)
-	for _, value := range ht.list {
+	for i, value := range ht.list {
 		if value == nil {
 			continue
 		}
@@ -96,6 +96,7 @@ func (ht *HashTableSeparateChaining) resizeList() {
 			node = node.next
 		}
 		value = nil
+		ht.list[i] = nil
 	}
 	ht.list = scaledList
 }
