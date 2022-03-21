@@ -1,3 +1,3 @@
-module github.com/VladimirZaets/go-data-structures
+module github.com/VladimirZaets/godatastructures
 
 go 1.17

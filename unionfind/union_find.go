@@ -1,4 +1,4 @@
-package main
+package unionfind
 
 type UnionFind struct {
 	ids           []int //Root node id, if ids[i] = i the node is root

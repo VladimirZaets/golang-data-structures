@@ -1,4 +1,4 @@
-package main
+package dynamicarray
 
 import (
 	"math/rand"

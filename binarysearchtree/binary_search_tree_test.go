@@ -1,41 +1,22 @@
-package main
+package binarysearchtree
 
 import (
 	"fmt"
 	"reflect"
 	"testing"
+
+	"github.com/VladimirZaets/godatastructures/common/comparable"
 )
 
 func TestBinarySearchTree(t *testing.T) {
 	bst := NewBinarySearchTree()
-	element01 := &Comparable{
-		data:  "val-0",
-		index: 50,
-	}
-	element02 := &Comparable{
-		data:  "val-1",
-		index: 33,
-	}
-	element03 := &Comparable{
-		data:  "val-2",
-		index: 11,
-	}
-	element04 := &Comparable{
-		data:  "val-3",
-		index: 22,
-	}
-	element05 := &Comparable{
-		data:  "val-4",
-		index: 66,
-	}
-	element06 := &Comparable{
-		data:  "val-5",
-		index: 12,
-	}
-	notExistsElement := &Comparable{
-		data:  "none",
-		index: 9,
-	}
+	element01 := comparable.NewComparable(50, "val-0")
+	element02 := comparable.NewComparable(33, "val-1")
+	element03 := comparable.NewComparable(11, "val-2")
+	element04 := comparable.NewComparable(22, "val-3")
+	element05 := comparable.NewComparable(66, "val-4")
+	element06 := comparable.NewComparable(12, "val-5")
+	notExistsElement := comparable.NewComparable(9, "none")
 	bst.Add(element01)
 	bst.Add(element02)
 	bst.Add(element03)
@@ -45,27 +26,27 @@ func TestBinarySearchTree(t *testing.T) {
 
 	contains := bst.Contains(notExistsElement)
 	if contains == true {
-		t.Errorf("Element with index %d does not exists in tree, got exists", notExistsElement.index)
+		t.Errorf("Element with index %d does not exists in tree, got exists", notExistsElement.GetIndex())
 	}
 	contains = bst.Contains(element05)
 	if contains == false {
-		t.Errorf("Element with index %d exists in tree, got does not exists", element05.index)
+		t.Errorf("Element with index %d exists in tree, got does not exists", element05.GetIndex())
 	}
 	bst.Remove(element05)
 	contains = bst.Contains(element05)
 	if contains == true {
-		t.Errorf("Element with index %d does not exists in tree, got exists", element05.index)
+		t.Errorf("Element with index %d does not exists in tree, got exists", element05.GetIndex())
 	}
 	bst.Remove(element01)
 	bst.Remove(element03)
 
 	contains = bst.Contains(element01)
 	if contains == true {
-		t.Errorf("Element with index %d does not exists in tree, got exists", element01.index)
+		t.Errorf("Element with index %d does not exists in tree, got exists", element01.GetIndex())
 	}
 	contains = bst.Contains(element03)
 	if contains == true {
-		t.Errorf("Element with index %d does not exists in tree, got exists", element03.index)
+		t.Errorf("Element with index %d does not exists in tree, got exists", element03.GetIndex())
 	}
 	if bst.size != 3 {
 		t.Errorf("The size of tree is %d, should be %d", bst.size, 3)
@@ -75,10 +56,7 @@ func TestBinarySearchTree(t *testing.T) {
 func TestBinarySearchTreeHeight(t *testing.T) {
 	bst := NewBinarySearchTree()
 	for i, index := range []int{30, 55, 15, 14, 20, 25, 60, 50, 70, 61, 81, 99} {
-		bst.Add(&Comparable{
-			data:  fmt.Sprintf("val-%d", i),
-			index: index,
-		})
+		bst.Add(comparable.NewComparable(index, fmt.Sprintf("val-%d", i)))
 	}
 	height := bst.Height()
 	if height != 6 {
@@ -89,10 +67,7 @@ func TestBinarySearchTreeHeight(t *testing.T) {
 func TestBinarySearchTreeTraverse(t *testing.T) {
 	bst := NewBinarySearchTree()
 	for i, index := range []int{30, 55, 15, 14, 20, 25, 60, 50, 70, 61, 81, 99} {
-		bst.Add(&Comparable{
-			data:  fmt.Sprintf("val-%d", i),
-			index: index,
-		})
+		bst.Add(comparable.NewComparable(index, fmt.Sprintf("val-%d", i)))
 	}
 
 	sl, _ := bst.Traverse(PreOrder)
@@ -121,11 +96,11 @@ func TestBinarySearchTreeTraverse(t *testing.T) {
 	}
 }
 
-func injectIndexes(sl []*Comparable) []int {
+func injectIndexes(sl []*comparable.Comparable) []int {
 	result := make([]int, len(sl))
 
 	for i, val := range sl {
-		result[i] = val.index
+		result[i] = val.GetIndex()
 	}
 
 	return result

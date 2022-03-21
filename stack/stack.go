@@ -1,17 +1,19 @@
-package main
+package stack
 
 import (
 	"errors"
+
+	"github.com/VladimirZaets/godatastructures/doublelinkedlist"
 )
 
 type Stack struct {
-	list *DoubleLinkedList
+	list *doublelinkedlist.DoubleLinkedList
 	size int
 }
 
 func NewStack() *Stack {
 	return &Stack{
-		list: NewDoubleLinkedList(),
+		list: doublelinkedlist.NewDoubleLinkedList(),
 	}
 }
 
@@ -38,13 +40,9 @@ func (stk *Stack) Pop() error {
 }
 
 func (stk *Stack) Peek() interface{} {
-	if stk.size == 0 {
+	node := stk.list.GetFromTail()
+	if node == nil {
 		return nil
 	}
-
-	if stk.size == 1 {
-		return stk.list.head.data
-	}
-
-	return stk.list.tail.data
+	return node.Get()
 }

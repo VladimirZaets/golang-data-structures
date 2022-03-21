@@ -1,15 +1,14 @@
-package main
+package binaryheap
 
-type Comparable struct {
-	index int
-	data  interface{}
-}
+import (
+	"github.com/VladimirZaets/godatastructures/common/comparable"
+)
 
 type BinaryHeap struct {
-	list []*Comparable
+	list []*comparable.Comparable
 }
 
-func NewBinaryHeap(list []*Comparable) *BinaryHeap {
+func NewBinaryHeap(list []*comparable.Comparable) *BinaryHeap {
 	heap := &BinaryHeap{
 		list: list,
 	}
@@ -19,7 +18,7 @@ func NewBinaryHeap(list []*Comparable) *BinaryHeap {
 	return heap
 }
 
-func (bh *BinaryHeap) maxHeapify(list []*Comparable) {
+func (bh *BinaryHeap) maxHeapify(list []*comparable.Comparable) {
 	for i := len(list)/2 - 1; i >= 0; i-- {
 		bh.bublingDown(i)
 	}
@@ -32,11 +31,11 @@ func (bh *BinaryHeap) bublingDown(i int) {
 
 	largest := i
 
-	if childLeft < len(bh.list) && bh.list[childLeft].index > bh.list[largest].index {
+	if childLeft < len(bh.list) && bh.list[childLeft].GetIndex() > bh.list[largest].GetIndex() {
 		largest = childLeft
 	}
 
-	if childRight < len(bh.list) && bh.list[childRight].index > bh.list[largest].index {
+	if childRight < len(bh.list) && bh.list[childRight].GetIndex() > bh.list[largest].GetIndex() {
 		largest = childRight
 	}
 
@@ -50,7 +49,7 @@ func (bh *BinaryHeap) bublingDown(i int) {
 func (bh *BinaryHeap) bublingUp(i int) {
 	parent := (i - 1) / 2
 
-	if bh.list[i].index > bh.list[parent].index {
+	if bh.list[i].GetIndex() > bh.list[parent].GetIndex() {
 		node := bh.list[parent]
 		bh.list[parent] = bh.list[i]
 		bh.list[i] = node
@@ -58,12 +57,12 @@ func (bh *BinaryHeap) bublingUp(i int) {
 	}
 }
 
-func (bh *BinaryHeap) Add(item *Comparable) {
+func (bh *BinaryHeap) Add(item *comparable.Comparable) {
 	bh.list = append(bh.list, item)
 	bh.bublingUp(len(bh.list) - 1)
 }
 
-func (bh *BinaryHeap) Poll() *Comparable {
+func (bh *BinaryHeap) Poll() *comparable.Comparable {
 	last := len(bh.list) - 1
 	node := bh.list[0]
 	bh.list[0] = bh.list[last]
@@ -72,6 +71,6 @@ func (bh *BinaryHeap) Poll() *Comparable {
 	return node
 }
 
-func (bh *BinaryHeap) Peek() *Comparable {
+func (bh *BinaryHeap) Peek() *comparable.Comparable {
 	return bh.list[0]
 }

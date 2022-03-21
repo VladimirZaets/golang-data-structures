@@ -1,7 +1,11 @@
-package main
+package binarysearchtree
 
 import (
 	"fmt"
+
+	"github.com/VladimirZaets/godatastructures/common/comparable"
+	"github.com/VladimirZaets/godatastructures/queue"
+	"github.com/VladimirZaets/godatastructures/stack"
 )
 
 const (
@@ -17,7 +21,7 @@ const (
 )
 
 type BinarySearchTreeNode struct {
-	data  *Comparable
+	data  *comparable.Comparable
 	left  *BinarySearchTreeNode
 	right *BinarySearchTreeNode
 }
@@ -33,7 +37,7 @@ func NewBinarySearchTree() *BinarySearchTree {
 	}
 }
 
-func NewBinarySearchTreeNode(data *Comparable, left *BinarySearchTreeNode, right *BinarySearchTreeNode) *BinarySearchTreeNode {
+func NewBinarySearchTreeNode(data *comparable.Comparable, left *BinarySearchTreeNode, right *BinarySearchTreeNode) *BinarySearchTreeNode {
 	return &BinarySearchTreeNode{
 		data:  data,
 		left:  left,
@@ -41,11 +45,10 @@ func NewBinarySearchTreeNode(data *Comparable, left *BinarySearchTreeNode, right
 	}
 }
 
-func (bst *BinarySearchTree) Add(element *Comparable) error {
+func (bst *BinarySearchTree) Add(element *comparable.Comparable) error {
 	if bst.Contains(element) {
-		return fmt.Errorf("element with index %d already exists in tree", element.index)
+		return fmt.Errorf("element with index %d already exists in tree", element.GetIndex())
 	}
-
 	node := NewBinarySearchTreeNode(element, nil, nil)
 	bst.size++
 	bst.root = bst.add(bst.root, node)
@@ -57,22 +60,22 @@ func (bst *BinarySearchTree) add(root *BinarySearchTreeNode, node *BinarySearchT
 		return node
 	}
 
-	if root.data.index > node.data.index {
+	if root.data.GetIndex() > node.data.GetIndex() {
 		root.left = bst.add(root.left, node)
 	}
 
-	if root.data.index < node.data.index {
+	if root.data.GetIndex() < node.data.GetIndex() {
 		root.right = bst.add(root.right, node)
 	}
 	return root
 }
 
-func (bst *BinarySearchTree) Contains(element *Comparable) bool {
-	_, err := bst.Find(element.index)
+func (bst *BinarySearchTree) Contains(element *comparable.Comparable) bool {
+	_, err := bst.Find(element.GetIndex())
 	return err == nil
 }
 
-func (bst *BinarySearchTree) Find(index int) (*Comparable, error) {
+func (bst *BinarySearchTree) Find(index int) (*comparable.Comparable, error) {
 	node := bst.find(bst.root, index)
 	if node == nil {
 		return nil, fmt.Errorf("cannot find element with index %d", index)
@@ -84,35 +87,35 @@ func (bst *BinarySearchTree) find(node *BinarySearchTreeNode, index int) *Binary
 	if node == nil {
 		return nil
 	}
-	if node.data.index == index {
+	if node.data.GetIndex() == index {
 		return node
 	}
-	if node.data.index > index {
+	if node.data.GetIndex() > index {
 		return bst.find(node.left, index)
 	}
-	if node.data.index < index {
+	if node.data.GetIndex() < index {
 		return bst.find(node.right, index)
 	}
 	return nil
 }
 
-func (bst *BinarySearchTree) Remove(element *Comparable) error {
+func (bst *BinarySearchTree) Remove(element *comparable.Comparable) error {
 	if !bst.Contains(element) {
-		return fmt.Errorf("element with index %d doesn't exists in tree", element.index)
+		return fmt.Errorf("element with index %d doesn't exists in tree", element.GetIndex())
 	}
-	bst.root = bst.remove(bst.root, element.index)
+	bst.root = bst.remove(bst.root, element.GetIndex())
 	bst.size--
 	return nil
 }
 
 func (bst *BinarySearchTree) remove(node *BinarySearchTreeNode, index int) *BinarySearchTreeNode {
-	if node.data.index > index {
+	if node.data.GetIndex() > index {
 		node.left = bst.remove(node.left, index)
 	}
-	if node.data.index < index {
+	if node.data.GetIndex() < index {
 		node.right = bst.remove(node.right, index)
 	}
-	if node.data.index == index {
+	if node.data.GetIndex() == index {
 		if node.left == nil {
 			right := node.right
 			node = nil
@@ -123,7 +126,7 @@ func (bst *BinarySearchTree) remove(node *BinarySearchTreeNode, index int) *Bina
 			return left
 		} else {
 			temporaryNode := bst.drift(driftRight, node.left)
-			temporaryNode.left = bst.remove(node.left, temporaryNode.data.index)
+			temporaryNode.left = bst.remove(node.left, temporaryNode.data.GetIndex())
 			temporaryNode.right = node.right
 			return temporaryNode
 		}
@@ -159,7 +162,7 @@ func (bst *BinarySearchTree) height(root *BinarySearchTreeNode) int {
 	return max(bst.height(root.left), bst.height(root.right)) + 1
 }
 
-func (bst *BinarySearchTree) Traverse(order int) ([]*Comparable, error) {
+func (bst *BinarySearchTree) Traverse(order int) ([]*comparable.Comparable, error) {
 	switch order {
 	case PreOrder:
 		return bst.preOrderTraverse(bst.root), nil
@@ -174,9 +177,9 @@ func (bst *BinarySearchTree) Traverse(order int) ([]*Comparable, error) {
 	return nil, fmt.Errorf("order type %d does not exists", order)
 }
 
-func (bst *BinarySearchTree) preOrderTraverse(node *BinarySearchTreeNode) []*Comparable {
-	sl := make([]*Comparable, bst.size)
-	stack := NewStack()
+func (bst *BinarySearchTree) preOrderTraverse(node *BinarySearchTreeNode) []*comparable.Comparable {
+	sl := make([]*comparable.Comparable, bst.size)
+	stack := stack.NewStack()
 	stack.Push(node)
 	i := 0
 
@@ -195,10 +198,10 @@ func (bst *BinarySearchTree) preOrderTraverse(node *BinarySearchTreeNode) []*Com
 	return sl
 }
 
-func (bst *BinarySearchTree) inOrderTraverse(node *BinarySearchTreeNode) []*Comparable {
-	sl := make([]*Comparable, bst.size)
+func (bst *BinarySearchTree) inOrderTraverse(node *BinarySearchTreeNode) []*comparable.Comparable {
+	sl := make([]*comparable.Comparable, bst.size)
 	i := 0
-	stack := NewStack()
+	stack := stack.NewStack()
 	current := node
 	for current != nil || stack.Peek() != nil {
 		for current != nil {
@@ -217,10 +220,10 @@ func (bst *BinarySearchTree) inOrderTraverse(node *BinarySearchTreeNode) []*Comp
 	return sl
 }
 
-func (bst *BinarySearchTree) postOrderTraverse(node *BinarySearchTreeNode) []*Comparable {
-	sl := make([]*Comparable, bst.size)
-	stack := NewStack()
-	stackFinal := NewStack()
+func (bst *BinarySearchTree) postOrderTraverse(node *BinarySearchTreeNode) []*comparable.Comparable {
+	sl := make([]*comparable.Comparable, bst.size)
+	stackFinal := stack.NewStack()
+	stack := stack.NewStack()
 	stack.Push(node)
 	i := 0
 
@@ -246,9 +249,9 @@ func (bst *BinarySearchTree) postOrderTraverse(node *BinarySearchTreeNode) []*Co
 	return sl
 }
 
-func (bst *BinarySearchTree) levelOrderTraverse(node *BinarySearchTreeNode) []*Comparable {
-	sl := make([]*Comparable, bst.size)
-	queue := NewQueue(bst.size)
+func (bst *BinarySearchTree) levelOrderTraverse(node *BinarySearchTreeNode) []*comparable.Comparable {
+	sl := make([]*comparable.Comparable, bst.size)
+	queue := queue.NewQueue(bst.size)
 	i := 0
 	queue.Offer(node)
 	for !queue.IsEmpty() {

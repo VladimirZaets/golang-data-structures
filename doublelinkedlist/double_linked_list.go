@@ -1,4 +1,4 @@
-package main
+package doublelinkedlist
 
 import (
 	"errors"
@@ -9,6 +9,18 @@ type Node struct {
 	data interface{}
 	prev *Node
 	next *Node
+}
+
+func (n *Node) Get() interface{} {
+	return n.data
+}
+
+func (n *Node) Next() *Node {
+	return n.next
+}
+
+func (n *Node) Prev() *Node {
+	return n.prev
 }
 
 func NewDoubleLinkedList() *DoubleLinkedList {
@@ -96,6 +108,17 @@ func (dll *DoubleLinkedList) AddToHead(data interface{}) error {
 
 	dll.size++
 	return nil
+}
+
+func (dll *DoubleLinkedList) GetFromTail() *Node {
+	if dll.tail == nil {
+		return dll.GetFromHead()
+	}
+	return dll.tail
+}
+
+func (dll *DoubleLinkedList) GetFromHead() *Node {
+	return dll.head
 }
 
 func (dll *DoubleLinkedList) RemoveLast() error {
