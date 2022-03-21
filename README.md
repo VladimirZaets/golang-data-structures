@@ -68,6 +68,7 @@
 ----
 
 ### Union Find
+
 |||
 | ----------- | ----------- |
 | Construction  | O(n) |
@@ -80,6 +81,7 @@
 ----
 
 ### Binary Search Tree
+
 |Operation|Average|Worst|
 | ----------- | ----------- | ----------- |
 | Insert  | O(log(n)) | O(n)|
@@ -87,7 +89,8 @@
 | Remove | O(log(n)) | O(n)|
 | Search | O(log(n)) | O(n)|
 
-### Hash map (Separate chaining)
+### Hash map
+
 |Operation|Average|Worst|
 | ----------- | ----------- | ----------- |
 | Set  | O(1)* | O(n)|
