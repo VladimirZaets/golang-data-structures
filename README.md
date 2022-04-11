@@ -98,3 +98,21 @@
 | Get | O(1)* | O(n)|
 
 * Constant time is only true in case of good uniform hash function.
+
+### Fenwick tree (Binary Indexed Tree)
+
+|||
+| ----------- | ----------- |
+| Construction | O(n) |
+| Point Update | O(log(n)) |
+| Range Sum | O(log(n)) |
+| Range Update | O(log(n)) |
+
+### Balanced Binary Search Tree
+
+|Operation|Average|Worst|
+| ----------- | ----------- | ----------- |
+| Insert  | O(log(n)) | O(log(n))|
+| Delete | O(log(n)) | O(log(n))|
+| Remove | O(log(n)) | O(log(n))|
+| Search | O(log(n)) | O(log(n))|
